@@ -18,7 +18,7 @@ class Router
             foreach ($tokens as $i => $token) {
                 if (0 === strpos($token, ':')) {
                     $name = substr($token, 1);
-                    $token = '(?p<' . $name . '>[^/]';
+                    $token = '(?P<' . $name . '>[^/]+)';
                 }
                 $tokens[$i] = $token;
             }
@@ -35,6 +35,7 @@ class Router
         if ('/' !== substr($path_info, 0, 1)) {
             $path_info = '/' . $path_info;
         }
+        
 
         foreach ($this->routes as $pattern => $params) {
             if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {

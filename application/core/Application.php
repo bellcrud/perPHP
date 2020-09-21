@@ -61,7 +61,7 @@ abstract class Application
 
     public function getSession()
     {
-        return $this->settion;
+        return $this->session;
     }
 
     public function getDbManager()
@@ -76,7 +76,7 @@ abstract class Application
 
     public function getViewDir()
     {
-        return $this->getRootDir() . '/controllers';
+        return $this->getRootDir() . '/views';
     }
 
     public function getModelDir()
@@ -127,7 +127,7 @@ abstract class Application
 
     protected function findController($controller_class)
     {
-        if (!class_exitst($controller_class)) {
+        if (!class_exists($controller_class)) {
             $controller_file = $this->getControllerDir() . '/' . $controller_class . '.php';
 
             if (!is_readable($controller_file)) {
@@ -145,7 +145,7 @@ abstract class Application
 
     protected function render404Page($e)
     {
-        $this->response->setStatus(404, 'Not Found');
+        $this->response->setStatusCode(404, 'Not Found');
         $message = $this->isDebugMode() ? $e->getMessage() : 'Page not found.';
         $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 

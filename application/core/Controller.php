@@ -17,7 +17,7 @@
 
             $this->application = $application;
             $this->request = $application->getRequest();
-            $this->response = $application->getResponce();
+            $this->response = $application->getResponse();
             $this->session = $application->getSession();
             $this->db_manager = $application->getDbManager();
         }
@@ -48,14 +48,13 @@
                 'session' => $this->session,
             );
 
-            $view = new View($this->application->getVireDir(), $defaults);
+            $view = new View($this->application->getViewDir(), $defaults);
 
             if (is_null($template)) {
                 $template = $this->action_name;
             }
 
             $path = $this->controller_name . '/' . $template;
-
             return $view->render($path, $variales, $layout);
         }
 
@@ -69,7 +68,7 @@
         {
             if (!preg_match('#https?://#', $url)) {
                 $protocol = $this->request->isSsl() ? 'https://' : 'http://';
-                $host = $this->reequest->getHost();
+                $host = $this->request->getHost();
                 $base_url = $this->request->getBaseUrl();
 
                 $url = $protocol . $host . $base_url . $url;
@@ -83,7 +82,7 @@
         {
             $key = 'csrf_tokens/' . $form_name;
             $tokens = $this->session->get($key, array());
-            if (count($tokens) >= 10) {
+            if (isset($tokens) && count($tokens) >= 10) {
                 array_shift($tokens);
             }
 
